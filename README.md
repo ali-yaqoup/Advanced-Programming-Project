@@ -1,104 +1,92 @@
-# ✈️ Skyline - Flight Booking Management System
+# Skyline — Flight Booking Authentication Module
 
-A comprehensive flight booking management system built with **JavaFX** frontend and **MySQL** database backend, featuring secure user authentication and role-based access control.
+A group project from the Advanced Programming course at An-Najah National University. Skyline is a JavaFX desktop application for flight booking management. This repository contains the contributor's portion: the **user-authentication module** (login, registration, and password-reset screens plus their supporting service and DAO layers).
 
-## � Technologies Used
+> The full Skyline system was a team effort. The code in this repo covers only the authentication slice described below.
 
-- **Frontend**: JavaFX 20.0.1 with FXML
-- **Backend**: Java 20 with Maven
-- **Database**: MySQL 8.0.28
-- **ORM**: Hibernate 5.6.15
-- **Security**: BCrypt password hashing
-- **UI Framework**: BootstrapFX 0.4.0, FormsFX 11.6.0
-- **Build Tool**: Maven
-- **Testing**: JUnit 5.10.2
+## What's Implemented
 
-## 📋 Key Features
+| Component | File(s) | Description |
+|---|---|---|
+| Application entry point | `application/SkylineApplication.java` | JavaFX `Application` subclass; loads the initial FXML scene |
+| Login controller | `controller/LoginController.java` | Handles credential input, calls BCrypt verification, navigates on success |
+| Login view | `resources/view/login_page.fxml` | FXML layout wired to `LoginController` |
+| Hello/landing controller | `controller/HelloController.java` | Post-login landing screen controller |
+| `Users` model | `model/Users.java` | Hibernate entity with BCrypt password hashing; `save()`, `isEmailInDatabase()`, `updatePassword()` |
+| DAO interface + impl | `database/interfaces/`, `database/repositories/UsersDAOImpl.java` | Repository pattern wrapping JDBC queries for user lookup and update |
+| Flights booking model | `database/FlightsBookingModel.java` | Hibernate entity for the `flights_booking` table |
+| Permission entity | `database/Permission.java` | Hibernate entity for the `permissions` table |
+| Hibernate config | `resources/hibernate.cfg.xml` | MySQL connection and entity mappings |
 
-- 🔐 **Secure User Authentication** with BCrypt password hashing
-- 👥 **Role-Based Access Control** (Admin/Agent roles)
-- 📝 **User Registration & Validation**
-- 🔑 **Password Reset Functionality**
-- 🎨 **Modern UI** with BootstrapFX styling
-- 🗄️ **Database Integration** with Hibernate ORM
+## Tech Stack
 
-## �👤 Contributor: Ali Derar Ali Yaqoub
+| Component | Detail |
+|---|---|
+| Language | Java 20 |
+| UI framework | JavaFX 20.0.1 with FXML |
+| Build tool | Maven (Maven Wrapper included: `./mvnw`) |
+| ORM | Hibernate 5.6.15 |
+| Database | MySQL 8.0.28 |
+| Password hashing | jBCrypt |
+| UI styling | BootstrapFX 0.4.0, FormsFX 11.6.0 |
+| Test dependency declared | JUnit Jupiter 5.10.2 |
 
-### My Role in the Project:
-I was responsible for the **User Authentication** module. This included:
-
-- 🔒 **Forget Password View & Logic** - Implemented secure password reset workflow
-- 📝 **Register View & Logic** - Created user registration with form validation
-- 🔐 **Login System** - Developed authentication with BCrypt password verification
-- 🎨 **UI/UX Design** - Designed responsive user interfaces using JavaFX and BootstrapFX
-
-### Technical Implementation:
-- **Frontend**: JavaFX controllers with FXML views
-- **Backend**: Java services with DAO pattern
-- **Security**: BCrypt for password hashing and validation
-- **Database**: MySQL with Hibernate ORM integration
-- **Validation**: Client-side and server-side form validation
-- **Error Handling**: Comprehensive exception handling and user feedback
-
-## 🛠️ Project Structure
+## Project Structure
 
 ```
-src/
-├── main/
-│   ├── java/
-│   │   ├── application/          # Main application entry point
-│   │   ├── controller/           # FXML controllers (Login, Register)
-│   │   ├── model/               # Data models and entities
-│   │   ├── database/            # Database layer and repositories
-│   │   └── util/                # Utility classes
-│   └── resources/
-│       ├── view/                # FXML view files
-│       └── hibernate.cfg.xml    # Database configuration
+Advanced-Programming-Project/
+├── pom.xml
+├── mvnw / mvnw.cmd           # Maven Wrapper
+└── src/
+    └── main/
+        ├── java/
+        │   ├── application/  # JavaFX Application class
+        │   ├── controller/   # FXML controllers (Login, Hello)
+        │   ├── database/     # Hibernate entities, DAO interfaces, UsersDAOImpl
+        │   │   ├── interfaces/
+        │   │   └── repositories/
+        │   ├── model/        # Users entity (BCrypt + JDBC helpers)
+        │   └── util/         # Utility classes
+        └── resources/
+            ├── hibernate.cfg.xml
+            ├── images/
+            └── view/         # FXML layouts (login_page.fxml, hello-view.fxml)
 ```
 
-## 📊 Database Schema
-
-The application uses a MySQL database with the following main tables:
-- **users** - User authentication and profile data
-- **flights_booking** - Flight booking management
-- **permissions** - Role-based permissions
-
-## 🔧 Setup & Installation
+## Build & Run
 
 ### Prerequisites
-- Java 20 or higher
-- MySQL 8.0+
-- Maven 3.6+
-- IDE with JavaFX support (IntelliJ IDEA recommended)
 
-### Database Setup
-1. Create MySQL database: `UserRegistration`
-2. Update database credentials in `model/Users.java`
-3. Run the provided SQL scripts to create tables
+- Java 20+
+- MySQL 8.0 running locally
+- Maven 3.6+ (or use the included wrapper)
 
-### Running the Application
-1. Clone the repository
-2. Navigate to project directory
-3. Run: `mvn clean javafx:run`
-4. Application will launch on the main login screen
+### Database setup
 
-## 🎯 Project Highlights
+```sql
+CREATE DATABASE UserRegistration;
+-- Run your project's schema scripts to create the users, flights_booking,
+-- and permissions tables.
+```
 
-- **Security First**: Implemented industry-standard password hashing with BCrypt
-- **Clean Architecture**: Followed MVC pattern with proper separation of concerns
-- **Modern UI**: Responsive design with BootstrapFX and FormsFX
-- **Database Integration**: Seamless MySQL connectivity with Hibernate ORM
-- **Error Handling**: Comprehensive validation and user-friendly error messages
-- **Scalable Design**: Modular architecture ready for future enhancements
+Update the connection URL and credentials in `src/main/resources/hibernate.cfg.xml` before running.
 
-## 📈 Learning Outcomes
+### Run the application
 
-This project demonstrates expertise in:
-- Enterprise Java development with modern frameworks
-- Database design and ORM implementation
-- Security best practices in authentication systems
-- UI/UX design with JavaFX
-- Software architecture patterns (MVC, DAO)
-- Build automation with Maven
-- Version control and project management
+```bash
+./mvnw clean javafx:run
+```
 
+### Run tests
+
+```bash
+./mvnw test
+```
+
+## Security Note
+
+`src/main/java/model/Users.java` currently contains a **hardcoded database password** in the source. Before sharing or deploying this code, move credentials to environment variables or an external configuration file and rotate the committed password.
+
+---
+
+*Software Engineering degree, An-Najah National University*
